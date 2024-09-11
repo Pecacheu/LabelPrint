@@ -5,5 +5,6 @@ lblData=async data => {
 		if(e.tagName=='IMG') e.src=data[d], p.push(new Promise(r => {e.onload=r}));
 		else e.innerHTML=data[d];
 	}
-	await Promise.all(p); window.onlabel&&onlabel(data);
+	await Promise.all(p); window.onlabel&&(await onlabel(data));
+	return 'lbl';
 }

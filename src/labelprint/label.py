@@ -35,8 +35,10 @@ def make(html, outfile=None, data=None):
 				data[k] = "data:image/png;base64,"+base64.b64encode(d).decode('utf8')
 		#Export PDF
 		get(f"file://{html}", 5)
-		try: drv.execute_script(f"{_ljs}\nawait lblData({json.dumps(data)})")
-		except TimeoutException: raise TimeoutError("Failed to load resources")
+		try:
+			r=drv.execute_script(f"{_ljs}\nreturn await lblData({json.dumps(data)})")
+			if r != 'lbl': raise AssertionError("Bad script return value")
+		except TimeoutException: raise TimeoutError("Failed to load script")
 		pdf = drv.execute_cdp_cmd('Page.printToPDF', {
 			'printBackground':True, 'preferCSSPageSize':True
 		})
