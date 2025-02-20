@@ -10,7 +10,8 @@ from pycolorutils.color import *
 
 Options = {
 	'timeout': 120, 'engine': "Edge",
-	'headless': True, 'silent': False
+	'opts': None, 'headless': True,
+	'silent': False
 }
 _Drv: ChromiumDriver|None = None
 _Tmr: Timer|None = None
@@ -20,7 +21,7 @@ def startDriver():
 	if _Tmr: _Tmr.cancel(); _Tmr=None
 	if _Drv is False: raise BlockingIOError("WebDriver busy")
 	if _Drv: return _Drv
-	opt = webdriver.EdgeOptions()
+	opt = Options['opts'] or getattr(webdriver, Options['engine']+'Options')()
 	if Options['headless']: opt.arguments.append("--headless")
 	state = {
 		'recentDestinations':[{'id':"Save as PDF", 'origin':"local", 'account':""}],

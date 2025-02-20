@@ -70,9 +70,10 @@ TBD
 - `get(uri: str, timeout: float)` Get `uri` or raise TimeoutError if it can't be retrieved after `timeout` secs.
 
 ### Global Options
-| Name     | Type  | Description               | Default |
-| -------- | ----- | ------------------------- | ------- |
-| timeout  | float | Secs to run in background | 120     |
-| engine   | str   | Name of browser to use    | Edge    |
-| headless | bool  | Run browser as headless   | True    |
-| silent   | bool  | Don't print any debug     | False   |
+| Name     | Type        | Description               | Default |
+| -------- | ----------- | ------------------------- | ------- |
+| timeout  | float       | Secs to run in background | 120     |
+| engine   | str         | Name of browser to use    | Edge    |
+| opts     | BaseOptions | Custom webdriver options  | None    |
+| headless | bool        | Run browser as headless   | True    |
+| silent   | bool        | Don't print any debug     | False   |
