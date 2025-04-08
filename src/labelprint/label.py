@@ -68,7 +68,7 @@ def printPDF(fn, ptrName, opts=None):
 	p = wprint.OpenPrinter(ptrName)
 	try:
 		#Defaults
-		dm = wprint.GetPrinter(p, 9)['pDevMode']
+		dm = wprint.GetPrinter(p, 2)['pDevMode']
 		dm.Copies = 1; dm.Color = 1; dm.Scale = 100
 		#Set Opts
 		for k,o in OptsToDM.items():
