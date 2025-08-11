@@ -24,7 +24,7 @@ with open(_ljs,'r') as f: _ljs = f.read()
 
 def make(html, outfile=None, data=None):
 	if not data: data={}
-	drv = startDriver()
+	drv = getDriver()
 	try:
 		#Encode PIL images
 		for k in data:
@@ -34,7 +34,7 @@ def make(html, outfile=None, data=None):
 				fp.seek(0); d=fp.read(); fp.close()
 				data[k] = "data:image/png;base64,"+base64.b64encode(d).decode('utf8')
 		#Export PDF
-		get(f"file://{html}", 5)
+		drv.get(f"file://{html}", 5)
 		try:
 			r=drv.execute_script(f"{_ljs}\nreturn await lblData({json.dumps(data)})")
 			if r != 'lbl': raise AssertionError("Bad script return value")
@@ -48,7 +48,7 @@ def make(html, outfile=None, data=None):
 			with open(outfile,'wb') as f: f.write(pdf)
 		else: outfile.write(pdf)
 	finally:
-		stopDriver()
+		drv.stop()
 
 #--- Printer Support ---
 

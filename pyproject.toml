@@ -11,7 +11,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "labelprint"
-version = "1.0.4"
+version = "1.0.5"
 authors = [
 	{name="Pecacheu", email="3608878+Pecacheu@users.noreply.github.com"}
 ]
