@@ -4,7 +4,6 @@ import json, time, os
 import subprocess as sp
 from threading import Timer
 from selenium import webdriver
-from selenium.webdriver.chromium.webdriver import ChromiumDriver
 from selenium.webdriver.chromium.options import ChromiumOptions
 from pycolorutils.color import *
 
@@ -58,7 +57,8 @@ class ProxyDriver:
 		try:
 			self.drv = getattr(webdriver, Options['engine'])(opt)
 		except AttributeError:
-			self.drv = ChromiumDriver(opt, browser_name=Options['engine'])
+			opt.binary_location = Options['engine']
+			self.drv = webdriver.Chrome(opt)
 
 	def _chkRdy(self):
 		if self.tmr or not self.drv:
