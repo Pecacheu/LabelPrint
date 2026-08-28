@@ -4,14 +4,14 @@ requires = [
 	"setuptools-scm>=8.0",
 	"pycolorutils>=1.2",
 	"pillow>=10.4",
-	"selenium>=4.22",
+	"selenium>=4.34",
 	"pywin32>=306.0"
 ]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "labelprint"
-version = "1.0.6"
+version = "1.0.7"
 authors = [
 	{name="Pecacheu", email="3608878+Pecacheu@users.noreply.github.com"}
 ]

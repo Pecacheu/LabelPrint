@@ -1,7 +1,6 @@
 #LabelPrint by Pecacheu; MIT License
 
-import json, time, os
-import subprocess as sp
+import json, time
 from threading import Timer
 from selenium import webdriver
 from selenium.webdriver.chromium.options import ChromiumOptions
@@ -18,23 +17,6 @@ Options = {
 _GetPerf = ("let n=new URL({}).pathname,l=[],p=performance.getEntries(),"
 	"i=p.length-1; for(; i>=0; --i) try {{if(new URL(p[i].name)"
 	".pathname===n) return p[i]}} catch(e){{}}")
-
-#Override Popen for Selenium
-def newStart(*args, **kwargs):
-	defaultPopen = sp.Popen
-	def popen(*args, **kwargs):
-		if os.name == 'nt': #Windows
-			kwargs['creationflags'] = sp.CREATE_NEW_PROCESS_GROUP
-		else: #Linux
-			kwargs['process_group'] = 0
-		return defaultPopen(*args, **kwargs)
-
-	sp.Popen = popen
-	try: newStart.defaultStart(*args, **kwargs)
-	finally: sp.Popen = defaultPopen
-
-newStart.defaultStart = webdriver.common.service.Service.start
-webdriver.common.service.Service.start = newStart
 
 class ProxyDriver:
 	def __init__(self):

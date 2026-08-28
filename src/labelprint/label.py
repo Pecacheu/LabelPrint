@@ -6,6 +6,7 @@ import inspect as ins
 from os import path
 from PIL.Image import Image
 from selenium.common import TimeoutException
+from urllib3.exceptions import MaxRetryError
 import win32print as wprint
 from pycolorutils.color import *
 from .web import *
@@ -24,7 +25,6 @@ with open(_ljs,'r') as f: _ljs = f.read()
 
 def make(html, outfile=None, data=None):
 	if not data: data={}
-	drv = getDriver()
 	try:
 		#Encode PIL images
 		for k in data:
@@ -34,7 +34,15 @@ def make(html, outfile=None, data=None):
 				fp.seek(0); d=fp.read(); fp.close()
 				data[k] = "data:image/png;base64,"+base64.b64encode(d).decode('utf8')
 		#Export PDF
-		drv.get(f"file://{html}", 5)
+		html = f"file://{html}"
+		try:
+			drv = getDriver()
+			drv.get(html, 5)
+		except MaxRetryError:
+			#Restart driver to (hopefully) fix crash
+			drv.stop(True)
+			drv = getDriver()
+			drv.get(html, 5)
 		try:
 			r=drv.execute_script(f"{_ljs}\nreturn await lblData({json.dumps(data)})")
 			if r != 'lbl': raise AssertionError("Bad script return value")
